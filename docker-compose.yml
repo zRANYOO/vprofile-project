@@ -38,6 +38,6 @@ services:
     container_name: vproweb
     ports:
       - "80:80"
-volume:
+volumes:
   vprodbdata: {}
   vproappdata: {}
