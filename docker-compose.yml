@@ -25,7 +25,7 @@ services:
   vpromq01:
     image: rabbitmq:3.9-management
     ports:
-      - "5672:5672"  # Default RabbitMQ port
+      #  - "5672:5672"  # Default RabbitMQ port
       - "15672:15672"  # Management UI port
     environment:
       # Replace with strong passwords stored in environment variables
