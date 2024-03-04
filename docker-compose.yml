@@ -11,7 +11,7 @@ services:
       - vprodbdata:/var/lib/mysql
     environment:
       # Replace with a strong password stored in an environment variable
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=vprodbpass
 
   # Cache service (using official Memcached image)
   vprocache01:
@@ -27,8 +27,8 @@ services:
       - "15672:15672"  # Management UI port
     environment:
       # Replace with strong passwords stored in environment variables
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
 
   # Application service (assuming Dockerfile build)
   vproapp:
