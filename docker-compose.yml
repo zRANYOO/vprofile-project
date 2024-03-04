@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # Database service (using official MySQL image)
+  vprodb:
+    image: mysql:8.0
+    container_name: vprodb
+    ports:
+      - "3306:3306"
+    volumes:
+      - vprodbdata:/var/lib/mysql
+    environment:
+      # Replace with a strong password stored in an environment variable
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+
+  # Cache service (using official Memcached image)
+  vprocache01:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+
+  # Message queue service (using official RabbitMQ image)
+  vpromq01:
+    image: rabbitmq:3.9-management
+    ports:
+      - "5672:5672"  # Default RabbitMQ port
+      - "15672:15672"  # Management UI port
+    environment:
+      # Replace with strong passwords stored in environment variables
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+
+  # Application service (assuming Dockerfile build)
+  vproapp:
+    build: ./Docker-files/app
+    container_name: vproapp
+    ports:
+      - "8080:8080"
+    volumes:
+      - vproappdata:/usr/local/tomcat/webapps
+    # Add dependencies if the app relies on other services (e.g., database)
+    depends_on:
+      - vprodb  # Wait for database to be up before starting the app
+
+  # Web service (assuming Dockerfile build)
+  vproweb:
+    build: ./Docker-files/web
+    container_name: vproweb
+    ports:
+      - "80:80"
+    depends_on:
+      - vproapp  # Wait for the application to be up before starting the web service
+
+volumes:
+  vprodbdata: {}
+  vproappdata: {}
