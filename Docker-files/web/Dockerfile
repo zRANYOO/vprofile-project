@@ -1,4 +1,4 @@
-FROM nginx
+FROM 'nginx:alpine'
 LABEL "Project"="Vprofile"
 LABEL "Auther"="Imran"
 RUN rm -rf /etc/nginx/conf.d/default.conf
