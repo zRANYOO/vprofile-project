@@ -3,7 +3,9 @@ version: '3.8'
 services:
   # Database service (using official MySQL image)
   vprodb:
-    image: mysql:8.0
+    build:
+      context: ./Docker-files/db/
+    image: devilbatts/vprofiledb
     container_name: vprodb
     ports:
       - "3306:3306"
@@ -32,7 +34,8 @@ services:
 
   # Application service (assuming Dockerfile build)
   vproapp:
-    build: ./Docker-files/app
+    build: ./Docker-files/app/ 
+    image: devilbatts/vprofileapp
     container_name: vproapp
     ports:
       - "8080:8080"
@@ -44,7 +47,8 @@ services:
 
   # Web service (assuming Dockerfile build)
   vproweb:
-    build: ./Docker-files/web
+    build: ./Docker-files/web/
+    image: devilbatts/vprofileweb
     container_name: vproweb
     ports:
       - "80:80"
